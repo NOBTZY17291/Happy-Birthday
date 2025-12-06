@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Shoppee Delivery">
+    <meta name="robots" content="Shoppee Delivery">
+    <meta name="robots" content="Shoppee Delivery">
+      <meta property="og:image" content="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqTyp6Pcj9ppr2O8e0sfft0U3g6jgnD3HLCotc6H_2jQ&s">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✉️</text></svg>">
+    <title>Shoppee</title>
+    <style>
+        /* CSS Reset */
+        *, *::before, *::after { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+            -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+        }
+        
+        body { 
+            font-family: -apple-system, 'Segoe UI', system-ui, sans-serif; 
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333; 
+            min-height: 100vh; 
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        
+        .container {
+            text-align: center;
+            max-width: 800px;
+            width: 100%;
+        }
+        
+        h1 {
+            margin-bottom: 1.5rem;
+            color: #8b0000;
+            font-weight: 600;
+            font-size: 2.5rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .instructions {
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+            color: #555;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .envelope-container {
+            perspective: 1000px;
+            margin: 2rem auto;
+            width: 300px;
+            height: 200px;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .envelope {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .envelope.open {
+            transform: rotateX(180deg);
+        }
+        
+        .envelope-front, .envelope-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        
+        .envelope-front {
+            background: #8b0000;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            overflow: hidden;
+        }
+        
+        .envelope-back {
+            background: #fff;
+            transform: rotateX(180deg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+            border: 2px solid #8b0000;
+        }
+        
+        .flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #a00000;
+            clip-path: polygon(0 0, 50% 50%, 100% 0);
+            z-index: 2;
+            transition: transform 0.5s ease;
+        }
+        
+        .envelope.open .flap {
+            transform: rotateX(180deg);
+        }
+        
+        .letter {
+            width: 90%;
+            height: 85%;
+            background: #fff;
+            border-radius: 4px;
+            padding: 1.5rem;
+            text-align: left;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow-y: auto;
+        }
+        
+        .letter-content h2 {
+            color: #8b0000;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.5rem;
+        }
+        
+        .letter-content p {
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+        
+        .stamp {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 60px;
+            height: 60px;
+            background: #ffd700;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            color: #8b0000;
+            border: 2px dashed #8b0000;
+            transform: rotate(15deg);
+        }
+        
+        .address {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            color: white;
+            font-style: italic;
+        }
+        
+        .btn {
+            background: #8b0000;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 1.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .btn:hover {
+            background: #a00000;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .footer {
+            margin-top: 2rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 600px) {
+            .envelope-container {
+                width: 250px;
+                height: 170px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .letter {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎉🎂✨HAPPY BIRTHDAY🍰🥳</h1>
+        
+        <p class="instructions">Click Mo teh.🙄</p>
+        
+        <div class="envelope-container">
+            <div class="envelope" id="envelope">
+                <div class="envelope-front">
+                    <div class="flap"></div>
+                    <div class="stamp">POST</div>
+                    <div class="address">To: Princess<br>From: Sigma</div>
+                </div>
+                <div class="envelope-back">
+                    <div class="letter">
+                        <div class="letter-content">
+                            <h2>HAPPY BIRTHDAY Teh 😘💋💋,</h2>
+                            <p>Gusto ko lang sabihin na ang <strong>swerte ko</strong> na meron ka, kasi kinakausap mo pa rin ako kahit wala akong kwentang kausap. HAHAHAAHHA</p>
+                            <p><strong>HAPPY BORTHDAY ULIT TEHH!</strong> Grabe, nandito lang ako always para sa'yo. Kapag may problema ka o may gusto kang i-rant, I'm always here to listen—hindi man physically, emotionally nandito ako. Always stay strong sa mga problems, ah? Kaya ni Batman 'yan!!!!</p>
+                            <p>
+                              More blessings, more adventures, and more chikahan sa ating dalawa this year! 🫶
+                            </p>
+                            <p>In conclusion ang pogi pogi ko talaga😎</p>
+                            <p>btw Wshing you all the best!!! and Ingat palagi, teh! Miss you! 💖😉</p>
+                            <p><strong>Mamon🫶</strong></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <button class="btn" id="toggleBtn">Open Envelope</button>
+        
+        <div class="footer">
+            <p>Made with Labz</p>
+        </div>
+    </div>
+     <audio src="happy.mp4" autoplay loop id="music"></audio>
+    <script>
+
+
+        const envelope = document.getElementById('envelope');
+        const toggleBtn = document.getElementById('toggleBtn');
+        let isOpen = false;
+        
+        function toggleEnvelope() {
+            isOpen = !isOpen;
+            envelope.classList.toggle('open', isOpen);
+            music.play();
+            toggleBtn.textContent = isOpen ? 'Close Envelope' : 'Open Envelope';
+        }
+        
+        envelope.addEventListener('click', toggleEnvelope);
+        toggleBtn.addEventListener('click', toggleEnvelope);
+    </script>
+</body>
+</html>
